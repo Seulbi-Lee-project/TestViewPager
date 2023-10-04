@@ -1,6 +1,5 @@
 package com.example.testviewpager.adapter
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +44,7 @@ class SearchAdapter(val dataList: MutableList<VideoItems>) :
             bundle.putString("title", dataList[position].title)
             bundle.putString("content", dataList[position].content)
             bundle.putString("uri", dataList[position].videoUri)
+            bundle.putString("thumbnail", dataList[position].thumbnails)
             detailFragment.arguments = bundle
 
             val fragmentManager = (it.context as AppCompatActivity).supportFragmentManager

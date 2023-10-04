@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.testviewpager.BuildConfig
 import com.example.testviewpager.adapter.SearchAdapter
 import com.example.testviewpager.api.RetrofitApi
 import com.example.testviewpager.databinding.FragmentSearchBinding
@@ -18,10 +19,10 @@ import retrofit2.Response
 
 
 class SearchFragment : Fragment() {
-
     private val binding by lazy { FragmentSearchBinding.inflate(layoutInflater) }
     private lateinit var mContext: Context
     private var videoList: ArrayList<VideoItems> = ArrayList()
+    private var API_KEY = BuildConfig.API_KEY
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -39,14 +40,13 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding.searchBtn.setOnClickListener {
             var search = binding.searchEdit.text.toString()
             if (search != "") {
                 val service = RetrofitApi.youtubeSearchService
                 service.getYoutubeVideo(
                     search = search,
-                    apiKey = "AIzaSyB-hi0gpZmfY5A0fv_wOVf_q6l1L0N5Jz4"
+                    apiKey = API_KEY
                 )
                     .enqueue(object : retrofit2.Callback<YoutubeSearchResponse> {
                         override fun onResponse(
@@ -71,7 +71,10 @@ class SearchFragment : Fragment() {
                             }
                         }
 
-                        override fun onFailure(call: Call<YoutubeSearchResponse>, t: Throwable) {
+                        override fun onFailure(
+                            call: Call<YoutubeSearchResponse>,
+                            t: Throwable
+                        ) {
                             Log.d("TAG", t.message.toString())
                         }
                     })
